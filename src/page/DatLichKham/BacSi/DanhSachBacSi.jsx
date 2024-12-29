@@ -76,7 +76,7 @@ const MainContent = () => {
                   WebkitTextFillColor: "transparent",
                 }}
               >
-                Chọn bác sĩ
+                CHỌN BÁC SĨ
               </h1>
               <div className="mt-2 w-32 mx-auto h-1 bg-gradient-to-r from-cyan-600 to-blue-800 rounded-full"></div>
               {/* <p className="text-gray-600 mt-4 text-lg">

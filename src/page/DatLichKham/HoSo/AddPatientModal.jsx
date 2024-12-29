@@ -247,25 +247,45 @@ function AddPatientModal({ isOpen, onClose }) {
             "email",
             "address",
         ];
-
+    
+        // Kiểm tra các trường bắt buộc (khác tỉnh/thành, huyện, xã)
         for (const field of requiredFields) {
             if (!formData[field]) {
                 toast.error(`Vui lòng nhập đầy đủ thông tin!`);
                 return;
             }
         }
-
+    
+        // Kiểm tra Tỉnh/Thành
+        if (!selectedProvinceCode || !formData.province) {
+            toast.error("Vui lòng chọn Tỉnh/Thành.");
+            return;
+        }
+    
+        // Kiểm tra Huyện
+        if (!selectedDistrictCode || !formData.district) {
+            toast.error("Vui lòng chọn Quận/Huyện.");
+            return;
+        }
+    
+        // Kiểm tra Xã/Phường
+        if (!formData.ward) {
+            toast.error("Vui lòng chọn Xã/Phường.");
+            return;
+        }
+    
+        // Kiểm tra điều khoản
         if (!acceptTerms) {
             toast.error("Bạn cần chấp nhận điều khoản trước khi tạo hồ sơ mới.");
             return;
         }
-
+    
         const token = getToken();
         if (!token) {
             toast.error("Không tìm thấy token! Vui lòng đăng nhập lại.");
             return;
         }
-
+    
         try {
             const response = await fetch(`${CONFIG.API_GATEWAY}/patient/create-patient`, {
                 method: "POST",
@@ -275,22 +295,18 @@ function AddPatientModal({ isOpen, onClose }) {
                 },
                 body: JSON.stringify(formData),
             });
-
+    
             const data = await response.json();
             if (response.ok) {
-                console.log("Thêm thành công!")
                 toast.success("Tạo hồ sơ mới thành công!");
                 onClose();
-
                 return;
+            } else {
+                toast.error(data.message || "Có lỗi xảy ra, vui lòng thử lại.");
             }
-            else {
-                toast.error(data.message);
-            }
-
-
         } catch (error) {
-            toast.error('Đã xảy ra lỗi.Vui lòng thử lại!');
+            console.error("Lỗi khi tạo hồ sơ mới:", error);
+            toast.error("Đã xảy ra lỗi. Vui lòng thử lại!");
         }
     };
 
@@ -411,7 +427,7 @@ function AddPatientModal({ isOpen, onClose }) {
                         </div>
                         <div>
                             <label htmlFor="email" className="block font-medium text-sky-800">
-                                Email <span className="text-red-800">(*)</span>
+                                Email <span className="text-red-800">(*)</span> (địa chỉ email nhận thông tin lịch hẹn đặt khám)
                             </label>
                             <input
                                 id="email"

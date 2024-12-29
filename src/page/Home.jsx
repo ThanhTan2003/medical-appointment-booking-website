@@ -10,6 +10,7 @@ import DanhSachChuyenKhoa from './DatLichKham/ChuyenKhoa/DanhSachChuyenKhoa';
 import DanhSachLoaiDichVu from './DatLichKham/DichVu/DanhSachLoaiDichVu';
 import DanhSachTiemChung from './DatLichKham/TiemChung/DanhSachTiemChung';
 import NotFound from './NotFound';
+import UserPage from './User/UserPage';
 
 const MainContent = () => {
   return (
@@ -25,18 +26,22 @@ const MainContent = () => {
 
         {/* Route Not Found */}
         <Route path="*" element={<NotFound />} />
+
+        <Route path="/user/*" element={<UserPage />}>
+
+        </Route>
       </Routes>
       <Outlet />
     </div>
   );
 };
 
-const Home = () =>{
+const Home = () => {
   return (
     <>
-    <Header />
-    <MainContent />
-    <Footer />
+      <Header />
+      <MainContent />
+      <Footer />
     </>
   )
 }

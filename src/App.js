@@ -6,6 +6,8 @@ import Home from './page/Home';
 import TrangChu from './page/TrangChu';
 import HomeDatLichKham from './page/DatLichKham/HomeDatLichKham';
 import Login from './page/Login';
+import UserPage from './page/User/UserPage';
+
 
 export default function App() {
   return (
@@ -14,7 +16,10 @@ export default function App() {
         <Route path= "/*" element={<Home />}>
         
         </Route>
-        <Route path= "/login" element={<Login />}></Route>
+
+        <Route path= "/login" element={<Login />}>
+
+        </Route>
     </Routes>
   </BrowserRouter>
   )

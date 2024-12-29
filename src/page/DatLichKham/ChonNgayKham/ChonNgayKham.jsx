@@ -16,7 +16,7 @@ const MainContent = () => {
   const [loading, setLoading] = useState(true);
 
   const holidayMatrix = [[1, 1], [30, 4], [2, 9]];
-  const specificHolidays = ["2024/12/31", "2025/09/03"];
+  const specificHolidays = ["2024/12/30", "2025/09/03"];
 
   const [serviceTimeFrameId, setServiceTimeFrameId] = useState(null);
 

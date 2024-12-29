@@ -12,6 +12,71 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserNurse, faHandHoldingMedical, faPills, faSyringe } from '@fortawesome/free-solid-svg-icons';
 import ChonNgayKham from "./ChonNgayKham/ChonNgayKham";
 import XacNhanThongTin from "./XacNhanThanhToan/XacNhanThongTin";
+import ChonDichVuTheoChuyenKhoa from "./ChuyenKhoa/ChonDichVu";
+import ChonDichVuTheoLoaiDichVu from "./DichVu/ChonDichVu";
+import ChonDichVuBacSi from "./DichVuBacSi/ChonDichVuBacSi"
+
+const MainContent = () => {
+  return (
+    <div>
+      <Routes>
+        <Route index element={<DanhSachBacSi />} />
+        <Route path="bac-si" element={<DanhSachBacSi />}>
+          <Route path=":doctorId" element={<ChonDichVu />} >
+            <Route path=":doctorServiceId" element={<ChonNgayKham />} >
+              <Route path=":serviceTimeFrameId/:date" element={<ChonHoSo />}>
+                <Route path=":patientsId" element={<XacNhanThongTin />}>
+
+                </Route>
+              </Route>
+            </Route>
+          </Route>
+        </Route>
+
+        <Route path="chuyen-khoa" element={<DanhSachChuyenKhoa />} >
+          <Route path=":specialtyId" element={<ChonDichVuTheoChuyenKhoa />}>
+            <Route path=":serviceId" element={<ChonDichVuBacSi />}>
+              <Route path=":doctorServiceId" element={<ChonNgayKham />} >
+                <Route path=":serviceTimeFrameId/:date" element={<ChonHoSo />}>
+                  <Route path=":patientsId" element={<XacNhanThongTin />}>
+
+                  </Route>
+                </Route>
+              </Route>
+            </Route>
+          </Route>
+        </Route>
+
+        <Route path="dich-vu" element={<DanhSachLoaiDichVu />} >
+          <Route path=":serviceTypeId" element={<ChonDichVuTheoLoaiDichVu />}>
+            <Route path=":serviceId" element={<ChonDichVuBacSi />}>
+              <Route path=":doctorServiceId" element={<ChonNgayKham />} >
+                <Route path=":serviceTimeFrameId/:date" element={<ChonHoSo />}>
+                  <Route path=":patientsId" element={<XacNhanThongTin />}>
+
+                  </Route>
+                </Route>
+              </Route>
+            </Route>
+          </Route>
+        </Route>
+
+        <Route path="tiem-chung" element={<DanhSachTiemChung />} >
+          <Route path=":serviceId" element={<ChonDichVuBacSi />}>
+            <Route path=":doctorServiceId" element={<ChonNgayKham />} >
+              <Route path=":serviceTimeFrameId/:date" element={<ChonHoSo />}>
+                <Route path=":patientsId" element={<XacNhanThongTin />}>
+
+                </Route>
+              </Route>
+            </Route>
+          </Route>
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </div>
+  );
+};
 
 const HomeDatLichKham = () => {
   const location = useLocation(); // Lấy route hiện tại
@@ -38,11 +103,10 @@ const HomeDatLichKham = () => {
               <Link
                 key={button.path}
                 to={`/dat-lich-kham/${button.path}`} // Đường dẫn tuyệt đối
-                className={`px-4 py-2 rounded-full font-semibold border-2 transition duration-300 ${
-                  location.pathname.includes(`/dat-lich-kham/${button.path}`)
-                    ? "text-white bg-cyan-600 border-cyan-600 hover:bg-cyan-700"
-                    : "text-cyan-700 bg-white border-transparent hover:border-cyan-500 hover:bg-cyan-50"
-                }`}
+                className={`px-4 py-2 rounded-full font-semibold border-2 transition duration-300 ${location.pathname.includes(`/dat-lich-kham/${button.path}`)
+                  ? "text-white bg-cyan-600 border-cyan-600 hover:bg-cyan-700"
+                  : "text-cyan-700 bg-white border-transparent hover:border-cyan-500 hover:bg-cyan-50"
+                  }`}
               >
                 <FontAwesomeIcon icon={button.icon} /> &nbsp;&nbsp;
                 {button.label}
@@ -53,31 +117,6 @@ const HomeDatLichKham = () => {
         <br />
         <MainContent />
       </div>
-    </div>
-  );
-};
-
-const MainContent = () => {
-  return (
-    <div>
-      <Routes>
-        <Route index element={<DanhSachBacSi />} />
-        <Route path="bac-si" element={<DanhSachBacSi />}>
-          <Route path=":doctorId" element={<ChonDichVu />} >
-            <Route path=":doctorServiceId" element={<ChonNgayKham />} >
-                <Route path=":serviceTimeFrameId/:date" element={<ChonHoSo />}> 
-                  <Route path=":patientsId" element={<XacNhanThongTin />}> 
-
-                  </Route>
-                </Route>
-            </Route>
-          </Route>
-        </Route>
-        <Route path="chuyen-khoa" element={<DanhSachChuyenKhoa />} />
-        <Route path="dich-vu" element={<DanhSachLoaiDichVu />} />
-        <Route path="tiem-chung" element={<DanhSachTiemChung />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
     </div>
   );
 };

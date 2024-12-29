@@ -80,7 +80,7 @@ const MainContent = () => {
                                             WebkitTextFillColor: "transparent",
                                         }}
                                     >
-                                        Chọn dịch vụ
+                                        CHỌN DỊCH VỤ
                                     </h1>
                                     <div className="mt-2 w-32 mx-auto h-1 bg-gradient-to-r from-cyan-600 to-blue-800 rounded-full"></div>
                                 </div>
@@ -110,11 +110,17 @@ const MainContent = () => {
                                                         }}
                                                     >
                                                         {item.service.name.toUpperCase()}
-                                                    </h4>
-                                                    <p className="text-lg text-yellow-800 font-medium mt-1">
-                                                        <span className="italic">Phí khám bệnh:</span>{" "}
-                                                        <span className="font-semibold">{item.unitPrice ? item.unitPrice.toLocaleString('vi-VN') : "Liên hệ"}</span>
+                                                    </h4><br />
+                                                    <p className="text-lg text-yellow-800">
+                                                        <span className="font-semibold">Phí khám bệnh / dịch vụ:</span>{" "}
+                                                        <span className="">{item.unitPrice ? item.unitPrice.toLocaleString('vi-VN') : "Liên hệ"} VND</span>
                                                     </p>
+                                                    <p className="text-sm text-gray-700 mt-1">
+                                                        {item.service.description.length > 100
+                                                            ? `${item.service.description.substring(0, 100)}...`
+                                                            : item.service.description}
+                                                    </p>
+
                                                 </div>
                                             </div>
 
