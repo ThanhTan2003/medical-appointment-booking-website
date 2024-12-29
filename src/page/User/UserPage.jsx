@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, Routes, Route, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAddressBook, faFileLines, faKey, faBell } from "@fortawesome/free-solid-svg-icons";
@@ -6,8 +6,8 @@ import DanhSachHoSo from "./HoSo/DanhSachHoSo";
 import PhieuKhamBenh from "./PhieuKhamBenh/PhieuKhamBenh";
 import ThongBao from "./ThongBao/ThongBao";
 import ThayDoiMatKhau from "./ThayDoiMatKhau/ThayDoiMatKhau";
-import DanhSachLichHen from"./PhieuKhamBenh/DanhSachLichHen";
-import ThongTinLichHen from"./PhieuKhamBenh/ThongTinLichHen";
+import DanhSachLichHen from "./PhieuKhamBenh/DanhSachLichHen";
+import ThongTinLichHen from "./PhieuKhamBenh/ThongTinLichHen";
 import NotFound from "../NotFound";
 
 const UserPage = () => {
@@ -62,6 +62,13 @@ const UserPage = () => {
 };
 
 const MainContent = () => {
+    const location = useLocation();
+
+    // Scroll lên đầu trang khi đường dẫn thay đổi
+    useEffect(() => {
+        window.scrollTo(0, 0); // Đưa thanh trượt lên đầu trang
+    }, [location.pathname]);
+
     return (
         <div className="bg-white p-4">
             <Routes>
@@ -69,9 +76,7 @@ const MainContent = () => {
                 <Route path="ho-so" element={<DanhSachHoSo />} />
                 <Route path="phieu-kham-benh" element={<PhieuKhamBenh />} >
                     <Route path=":patientsId" element={<DanhSachLichHen />}> 
-                        <Route path=":appointmentId" element={<ThongTinLichHen />}> 
-                    
-                        </Route>
+                        <Route path=":appointmentId" element={<ThongTinLichHen />} /> 
                     </Route>
                 </Route>
                 <Route path="thong-bao" element={<ThongBao />} />

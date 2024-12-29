@@ -104,13 +104,13 @@ const MainContent = () => {
                                                 {/* Tên dịch vụ và giá */}
                                                 <div className="flex-1">
                                                     <h4
-                                                        className="text-xl font-bold bg-clip-text text-transparent"
+                                                        className="text-xl font-bold bg-clip-text text-transparent pb-2"
                                                         style={{
                                                             backgroundImage: "linear-gradient(to right, #0078B7, #004F8C)",
                                                         }}
                                                     >
                                                         {item.service.name.toUpperCase()}
-                                                    </h4><br />
+                                                    </h4>
                                                     <p className="text-lg text-yellow-800">
                                                         <span className="font-semibold">Phí khám bệnh / dịch vụ:</span>{" "}
                                                         <span className="">{item.unitPrice ? item.unitPrice.toLocaleString('vi-VN') : "Liên hệ"} VND</span>

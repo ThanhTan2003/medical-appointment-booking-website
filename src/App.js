@@ -6,7 +6,7 @@ import Home from './page/Home';
 import TrangChu from './page/TrangChu';
 import HomeDatLichKham from './page/DatLichKham/HomeDatLichKham';
 import Login from './page/Login';
-import UserPage from './page/User/UserPage';
+import Register from './page/Register';
 
 
 export default function App() {
@@ -18,6 +18,10 @@ export default function App() {
         </Route>
 
         <Route path= "/login" element={<Login />}>
+
+        </Route>
+
+        <Route path= "/register" element={<Register />}>
 
         </Route>
     </Routes>
