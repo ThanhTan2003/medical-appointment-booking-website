@@ -3,6 +3,8 @@ import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { getToken } from "../../../services/localStorageService";
 import { CONFIG } from "../../../configurations/configuration";
 import AddPatientModal from "../../DatLichKham/HoSo/AddPatientModal";
+import PatientDetailsModal from "../../DatLichKham/HoSo/PatientDetailsModal";
+import UpdatePatientModal from "../../DatLichKham/HoSo/UpdatePatientModal";
 
 const ChonHoSo = () => {
   const [patientProfiles, setPatientProfiles] = useState([]);
@@ -13,6 +15,11 @@ const ChonHoSo = () => {
   const [loading, setLoading] = useState(true);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [selectedPatientId, setSelectedPatientId] = useState(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   const { patientsId } = useParams();
   const navigate = useNavigate();
@@ -118,18 +125,22 @@ const ChonHoSo = () => {
                   </button>
                   <button
                     className="w-24 h-10 border-2 border-yellow-500 text-yellow-500 bg-white font-semibold rounded-lg hover:bg-yellow-50 transition duration-300"
-                    onClick={() => console.log("Cập nhật hồ sơ:", profile.id)}
+                    onClick={() => {
+                      setSelectedPatientId(profile.id);
+                      setIsUpdateModalOpen(true);
+                    }}
                   >
                     Cập nhật
                   </button>
-                  <Link to={`${profile.id}`}>
-                    <button
-                      className="w-24 h-10 border-2 border-sky-500 text-sky-500 bg-white font-semibold rounded-lg hover:bg-blue-50 transition duration-300"
-                      onClick={() => console.log("Chi tiết hồ sơ:", profile.id)}
-                    >
-                      Chi tiết
-                    </button>
-                  </Link>
+                  <button
+                    className="w-24 h-10 border-2 border-sky-500 text-sky-500 bg-white font-semibold rounded-lg hover:bg-blue-50 transition duration-300"
+                    onClick={() => {
+                      setSelectedPatientId(profile.id);
+                      setIsDetailsModalOpen(true);
+                    }}
+                  >
+                    Chi tiết
+                  </button>
 
                 </div>
               </div>
@@ -143,8 +154,8 @@ const ChonHoSo = () => {
                 key={index}
                 onClick={() => setCurrentPage(pageNumber)}
                 className={`p-2 border border-gray-300 rounded-md transition duration-200 ${currentPage === pageNumber
-                    ? "bg-sky-600 text-white"
-                    : "bg-gray-100 hover:bg-gray-200"
+                  ? "bg-sky-600 text-white"
+                  : "bg-gray-100 hover:bg-gray-200"
                   }`}
               >
                 {pageNumber}
@@ -156,12 +167,22 @@ const ChonHoSo = () => {
       <Outlet />
 
       <AddPatientModal
-                        isOpen={isModalOpen}
-                        onClose={() => {
-                            setIsModalOpen(false);
-                            fetchPatientProfiles();
-                        }}
-                    />
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          fetchPatientProfiles();
+        }}
+      />
+      <PatientDetailsModal
+        isOpen={isDetailsModalOpen}
+        onClose={() => setIsDetailsModalOpen(false)}
+        patientId={selectedPatientId}
+      />
+      <UpdatePatientModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
+        patientId={selectedPatientId}
+      />
     </>
   );
 };
