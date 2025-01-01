@@ -22,6 +22,7 @@ const ChonHoSo = () => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   const { patientsId } = useParams();
+  
   const navigate = useNavigate();
 
   const fetchPatientProfiles = async () => {
@@ -117,12 +118,12 @@ const ChonHoSo = () => {
                   </div>
                 </div>
                 <div className="flex justify-end gap-2 mt-4">
-                  <button
+                  {/* <button
                     className="w-24 h-10 border-2 border-red-400 text-red-400 bg-white font-semibold rounded-lg hover:bg-red-50 transition duration-300"
                     onClick={() => console.log("Xóa hồ sơ:", profile.id)}
                   >
                     Xóa
-                  </button>
+                  </button> */}
                   <button
                     className="w-24 h-10 border-2 border-yellow-500 text-yellow-500 bg-white font-semibold rounded-lg hover:bg-yellow-50 transition duration-300"
                     onClick={() => {

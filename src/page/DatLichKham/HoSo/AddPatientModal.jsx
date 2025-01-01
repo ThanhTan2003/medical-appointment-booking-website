@@ -5,8 +5,18 @@ import "react-toastify/dist/ReactToastify.css";
 import { getToken } from "../../../services/localStorageService";
 import { CONFIG } from "../../../configurations/configuration";
 
+const NATIONS = [
+    "Kinh", "Tày", "Thái", "Hoa", "Khmer", "Mường", "Nùng", "H'Mông", "Dao", "Gia Rai",
+    "Ê Đê", "Ba Na", "Xơ Đăng", "Sán Chay", "Cơ Ho", "Chăm", "Sán Dìu", "Hrê", "Mnông", "Ra Glai",
+    "Xtiêng", "Bru-Vân Kiều", "Thổ", "Giáy", "Cơ Tu", "Giẻ-Triêng", "Mạ", "Khơ Mú", "Co", "Tà Ôi",
+    "Chơ Ro", "Kháng", "Xinh Mun", "Hà Nhì", "Chu Ru", "Lào", "La Chí", "La Ha", "Phù Lá", "La Hủ",
+    "Lự", "Lô Lô", "Chứt", "Mảng", "Pà Thẻn", "Co Lao", "Cống", "Bố Y", "Si La", "Pu Péo", "Brâu",
+    "Rơ Măm", "Ơ Đu"
+];
+
 const RELATIONSHIPS = ["Cha", "Mẹ", "Anh", "Chị", "Em", "Bản thân", "Khác"];
 const OCCUPATIONS = [
+    "Lao động tự do",
     "Khác",
     "Học sinh",
     "Sinh viên",
@@ -14,7 +24,7 @@ const OCCUPATIONS = [
     "Nhân viên văn phòng",
     "Nông dân",
     "Công nhân",
-    "Lao động tự do",
+
 ];
 
 function AddPatientModal({ isOpen, onClose }) {
@@ -25,7 +35,7 @@ function AddPatientModal({ isOpen, onClose }) {
         gender: "Nam",
         insuranceId: "",
         identificationCode: "",
-        nation: "Việt Nam",
+        nation: "Kinh",
         occupation: OCCUPATIONS[0],
         phoneNumber: "",
         email: "",
@@ -46,6 +56,23 @@ function AddPatientModal({ isOpen, onClose }) {
     const [districts, setDistricts] = useState([]);
     const [wards, setWards] = useState([]);
     const [acceptTerms, setAcceptTerms] = useState(false);
+
+    const handleCountryChange = (e) => {
+        const selectedCountry = e.target.value;
+        setFormData({
+            ...formData,
+            country: selectedCountry,
+            nation: selectedCountry === "Việt Nam" ? "" : "N/A", // Nếu là nước ngoài, dân tộc không áp dụng
+        });
+    };
+
+    const handleNationChange = (e) => {
+        const selectedNation = e.target.value;
+        setFormData({
+            ...formData,
+            nation: selectedNation,
+        });
+    };
 
     useEffect(() => {
         const token = getToken();
@@ -247,7 +274,7 @@ function AddPatientModal({ isOpen, onClose }) {
             "email",
             "address",
         ];
-    
+
         // Kiểm tra các trường bắt buộc (khác tỉnh/thành, huyện, xã)
         for (const field of requiredFields) {
             if (!formData[field]) {
@@ -255,37 +282,37 @@ function AddPatientModal({ isOpen, onClose }) {
                 return;
             }
         }
-    
+
         // Kiểm tra Tỉnh/Thành
         if (!selectedProvinceCode || !formData.province) {
             toast.error("Vui lòng chọn Tỉnh/Thành.");
             return;
         }
-    
+
         // Kiểm tra Huyện
         if (!selectedDistrictCode || !formData.district) {
             toast.error("Vui lòng chọn Quận/Huyện.");
             return;
         }
-    
+
         // Kiểm tra Xã/Phường
         if (!formData.ward) {
             toast.error("Vui lòng chọn Xã/Phường.");
             return;
         }
-    
+
         // Kiểm tra điều khoản
         if (!acceptTerms) {
             toast.error("Bạn cần chấp nhận điều khoản trước khi tạo hồ sơ mới.");
             return;
         }
-    
+
         const token = getToken();
         if (!token) {
             toast.error("Không tìm thấy token! Vui lòng đăng nhập lại.");
             return;
         }
-    
+
         try {
             const response = await fetch(`${CONFIG.API_GATEWAY}/patient/create-patient`, {
                 method: "POST",
@@ -295,7 +322,7 @@ function AddPatientModal({ isOpen, onClose }) {
                 },
                 body: JSON.stringify(formData),
             });
-    
+
             const data = await response.json();
             if (response.ok) {
                 toast.success("Tạo hồ sơ mới thành công!");
@@ -439,21 +466,43 @@ function AddPatientModal({ isOpen, onClose }) {
                                 className="border p-2 rounded-lg w-full mt-1"
                             />
                         </div>
-                        <div>
-                            <label htmlFor="nation" className="block font-medium text-sky-800">
-                                Quốc tịch <span className="text-red-800">(*)</span>
+                        {/* <div>
+                            <label htmlFor="country" className="block font-medium text-sky-800">
+                                Quốc gia <span className="text-red-800">(*)</span>
                             </label>
                             <select
-                                id="nation"
-                                name="nation"
-                                value={formData.nation}
-                                onChange={handleInputChange}
+                                id="country"
+                                name="country"
+                                value={formData.country}
+                                onChange={handleCountryChange}
                                 className="border p-2 rounded-lg w-full mt-1"
                             >
                                 <option value="Việt Nam">Việt Nam</option>
                                 <option value="Nước ngoài">Nước ngoài</option>
                             </select>
-                        </div>
+                        </div> */}
+                        {formData.country === "Việt Nam" && (
+                            <div>
+                                <label htmlFor="nation" className="block font-medium text-sky-800">
+                                    Dân tộc <span className="text-red-800">(*)</span>
+                                </label>
+                                <select
+                                    id="nation"
+                                    name="nation"
+                                    value={formData.nation}
+                                    onChange={handleNationChange}
+                                    className="border p-2 rounded-lg w-full mt-1"
+                                >
+                                    <option value="">Chọn dân tộc</option>
+                                    {NATIONS.map((nation, index) => (
+                                        <option key={index} value={nation}>
+                                            {nation}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
+
                         <div>
                             <label htmlFor="occupation" className="block font-medium text-sky-800">
                                 Nghề nghiệp <span className="text-red-800">(*)</span>

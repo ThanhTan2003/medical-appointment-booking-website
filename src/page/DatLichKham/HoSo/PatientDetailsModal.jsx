@@ -32,6 +32,7 @@ function PatientDetailsModal({ isOpen, onClose, patientId }) {
 
       const data = await response.json();
       setPatientDetails(data);
+      console.log(data)
     } catch (error) {
       console.error("Lỗi khi tải chi tiết hồ sơ:", error);
       toast.error("Đã xảy ra lỗi. Vui lòng thử lại!");
@@ -132,7 +133,15 @@ function PatientDetailsModal({ isOpen, onClose, patientId }) {
               </div>
               <div>
                 <label className="block font-medium text-sky-800">
-                  Quốc tịch:
+                  Quốc gia:
+                </label>
+                <p className="border p-2 rounded-lg w-full mt-1">
+                  {patientDetails.country}
+                </p>
+              </div>
+              <div>
+                <label className="block font-medium text-sky-800">
+                  Dân tộc:
                 </label>
                 <p className="border p-2 rounded-lg w-full mt-1">
                   {patientDetails.nation}

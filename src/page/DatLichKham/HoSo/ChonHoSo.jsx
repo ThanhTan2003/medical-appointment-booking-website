@@ -15,6 +15,9 @@ const ChonHoSo = () => {
 
     const { patientsId } = useParams();
 
+    const { serviceTimeFrameId } = useParams();
+      const { date } = useParams();
+
     const navigate = useNavigate();
 
     const fetchPatientProfiles = async () => {
@@ -27,7 +30,7 @@ const ChonHoSo = () => {
         setLoading(true);
         try {
             const response = await fetch(
-                `${CONFIG.API_GATEWAY}/patient/customer/patient-details?page=${currentPage}&size=${pageSize}`,
+                `${CONFIG.API_GATEWAY}/patient/customer/unbooked-patient-details?page=${currentPage}&size=${pageSize}&serviceTimeFrameId=${serviceTimeFrameId}&date=${date}`,
                 {
                     method: "GET",
                     headers: {
