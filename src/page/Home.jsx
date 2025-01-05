@@ -11,6 +11,7 @@ import DanhSachLoaiDichVu from './DatLichKham/DichVu/DanhSachLoaiDichVu';
 import DanhSachTiemChung from './DatLichKham/TiemChung/DanhSachTiemChung';
 import NotFound from './NotFound';
 import UserPage from './User/UserPage';
+import PaymentStatus from './DatLichKham/PaymentStatus';
 
 const MainContent = () => {
   return (
@@ -30,6 +31,9 @@ const MainContent = () => {
         <Route path="/user/*" element={<UserPage />}>
 
         </Route>
+
+        {/* Route Thanh Toán */}
+        <Route path="payment/:transactionId/status" element={<PaymentStatus />} />
       </Routes>
       <Outlet />
     </div>
